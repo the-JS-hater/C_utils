@@ -34,6 +34,11 @@ typedef struct
   size_t capacity, size;
 } strVec;
 
+
+#define clear(xs) xs.size = 0;
+
+#define empty(xs) ({bool retval; retval = !(xs.size); retval;})
+
 #define append(xs, x)\
 do {\
   if (xs.size >= xs.capacity)\
@@ -61,9 +66,6 @@ do {\
   remove(xs, xs.size - 1);\
   retval;\
 })
-
-#define empty(xs) ({bool retval; retval = !(xs.size); retval;})
-
 #define insert(xs, x, i)\
 do {\
   if (xs.size == xs.capacity) {\
@@ -140,8 +142,6 @@ do {\
   retval;\
 })
 
-#define clear(xs) xs.size = 0;
-
 #define filter(xs, func) ({\
   __auto_type xs_copy = copy(xs);\
   clear(xs_copy);\
@@ -152,6 +152,13 @@ do {\
   xs_copy;\
 })
 
+#define for_each(xs, func)\
+do {\
+  for (int i = 0; i < xs.size; ++i)\
+  {\
+    func(xs.items[i]);\
+  }\
+} while(0);
 
 int comp_int(void const *ptr1, void const *ptr2);
 int comp_ll(void const *ptr1, void const *ptr2);

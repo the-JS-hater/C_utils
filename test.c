@@ -5,6 +5,9 @@ int map_func(int x) {return x * x;}
 int reduce_func(int x, int y) {return x + y;}
 int div_by_five(int x) {return x % 5 == 0;}
 
+void print_int(int x) {printf("%d\n", x);}
+void print_str(char const *str) {printf("%s\n", str);}
+
 int main() 
 {
   iVec numbers = {};
@@ -65,4 +68,7 @@ int main()
   sort(names, comp_str);
   for (int i = 0; i < names.size; ++i)
     printf("%s\n", names.items[i]);
+  printf("For each loops\n");
+  for_each(names, print_str);
+  for_each(numbers, print_int);
 }
