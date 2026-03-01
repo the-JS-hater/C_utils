@@ -55,6 +55,30 @@ do {\
   xs.size--;\
 } while(0);
 
+#define pop(xs) ( {\
+  __auto_type retval = (*xs.items); \
+  retval = xs.items[xs.size - 1]; \
+  remove(xs, xs.size - 1);\
+  retval;\
+})
+
+#define empty(xs) ({bool retval; retval = !(xs.size); retval;})
+
+#define insert(xs, x, i)\
+do {\
+  if (xs.size == xs.capacity) {\
+    if (xs.capacity == 0) xs.capacity = 256;\
+    else xs.capacity *= 2;\
+    xs.items = realloc(xs.items, xs.capacity * sizeof(*xs.items));\
+  }\
+  for (int idx = xs.size; idx > i; --idx)\
+  {\
+    xs.items[idx] = xs.items[idx - 1];\
+  }\
+  xs.items[i] = x;\
+  xs.size++;\
+} while(0);
+
 #define sort(xs, comp)\
 do {\
   qsort(xs.items, xs.size, sizeof(*xs.items), comp);\
@@ -62,7 +86,7 @@ do {\
 
 #define contains(xs, x, comp) (\
   {\
-    int retval = false;\
+    bool retval = false;\
     for (int i = 0; i < xs.size; ++i)\
     {\
       if (!comp(&xs.items[i], &x))\
@@ -74,6 +98,60 @@ do {\
     retval;\
   }\
 )
+
+#define copy(xs) ({\
+  __auto_type xs_copy = (xs);\
+  xs_copy.capacity = xs.capacity;\
+  xs_copy.size = xs.size;\
+  xs_copy.items = malloc(xs.capacity * sizeof(*xs.items));\
+  for (int i = 0; i < xs.size; ++i)\
+  {\
+    xs_copy.items[i] = xs.items[i]; \
+  }\
+  xs_copy;\
+})
+
+#define map(xs, func)\
+do {\
+  for (int i = 0; i < xs.size; ++i)\
+  {\
+    xs.items[i] = func(xs.items[i]);\
+  }\
+} while(0);
+
+#define pure_map(xs, func) ({\
+  __auto_type xs_copy = (xs);\
+  xs_copy.capacity = xs.capacity;\
+  xs_copy.size = xs.size;\
+  xs_copy.items = malloc(xs.capacity * sizeof(*xs.items));\
+  for (int i = 0; i < xs.size; ++i)\
+  {\
+    xs_copy.items[i] = func(xs.items[i]);\
+  }\
+  xs_copy;\
+})
+
+#define reduce(xs, func, init_val) ({\
+  __auto_type retval = init_val;\
+  for (int i = 0; i < xs.size; ++i)\
+  {\
+    retval = func(retval, xs.items[i]);\
+  }\
+  retval;\
+})
+
+#define clear(xs) xs.size = 0;
+
+#define filter(xs, func) ({\
+  __auto_type xs_copy = copy(xs);\
+  clear(xs_copy);\
+  for (int i = 0; i < xs.size; ++i)\
+  {\
+    if (func(xs.items[i])) append(xs_copy, xs.items[i]); \
+  }\
+  xs_copy;\
+})
+
 
 int comp_int(void const *ptr1, void const *ptr2);
 int comp_ll(void const *ptr1, void const *ptr2);
