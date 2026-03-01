@@ -1,6 +1,7 @@
 #pragma once
 
 #include "stdlib.h"
+#include "stdbool.h"
 #include "string.h"
 
 typedef struct
@@ -39,9 +40,9 @@ do {\
   {\
     if (xs.capacity == 0) xs.capacity = 256;\
     else xs.capacity *= 2;\
-    xs.items = realloc(xs.items, xs.capacity * sizeof(*arr.items));\
+    xs.items = realloc(xs.items, xs.capacity * sizeof(*xs.items));\
   }\
-  xs.items[++xs.size] = x;\
+  xs.items[xs.size++] = x;\
 } while(0);
 
 #define remove(xs, idx)\
@@ -51,6 +52,7 @@ do {\
   {\
     xs.items[i] = xs.items[i+1];\
   }\
+  xs.size--;\
 } while(0);
 
 #define sort(xs, comp)\
@@ -58,11 +60,20 @@ do {\
   qsort(xs.items, xs.size, sizeof(*xs.items), comp);\
 } while(0);
 
-#define find(xs, comp)
-
-// #define contains(xs, x) (
-//   {void *ptr; retval = do_something(A); retval;}
-// )
+#define contains(xs, x, comp) (\
+  {\
+    int retval = false;\
+    for (int i = 0; i < xs.size; ++i)\
+    {\
+      if (!comp(&xs.items[i], &x))\
+      {\
+        retval = true;\
+        break;\
+      }\
+    }\
+    retval;\
+  }\
+)
 
 int comp_int(void const *ptr1, void const *ptr2);
 int comp_ll(void const *ptr1, void const *ptr2);
