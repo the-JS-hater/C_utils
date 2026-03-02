@@ -19,7 +19,7 @@ int main()
   printf("\nremoving idx = 3\nb = pop()\n\n");
   remove(numbers, 3);
   int b = pop(numbers);
-  printf("b = %d", b);
+  printf("b = %d\n", b);
   for (int i = 0; i < numbers.size; ++i) 
     printf("numbers[%d] = %d\n",i, numbers.items[i]);
   printf("\nSorting...\n\n");

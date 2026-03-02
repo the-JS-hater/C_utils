@@ -34,7 +34,6 @@ typedef struct
   size_t capacity, size;
 } strVec;
 
-
 #define clear(xs) xs.size = 0;
 
 #define empty(xs) ({bool retval; retval = !(xs.size); retval;})
@@ -50,22 +49,24 @@ do {\
   xs.items[xs.size++] = x;\
 } while(0);
 
-#define remove(xs, idx)\
+#define remove(xs, i)\
 do {\
-  if (idx >= xs.size) break;\
-  for (int i = idx; i < xs.size; ++i)\
-  {\
-    xs.items[i] = xs.items[i+1];\
-  }\
+  if (i >= xs.size) break;\
+	size_t nr_of_elems = xs.size - i - 1;\
+  memmove(\
+		&xs.items[i], &xs.items[i+1], \
+		nr_of_elems * sizeof(*xs.items)\
+	);\
   xs.size--;\
 } while(0);
 
-#define pop(xs) ( {\
+#define pop(xs) ({\
   __auto_type retval = (*xs.items); \
   retval = xs.items[xs.size - 1]; \
-  remove(xs, xs.size - 1);\
+ 	xs.size--;\
   retval;\
 })
+
 #define insert(xs, x, i)\
 do {\
   if (xs.size == xs.capacity) {\
@@ -73,10 +74,11 @@ do {\
     else xs.capacity *= 2;\
     xs.items = realloc(xs.items, xs.capacity * sizeof(*xs.items));\
   }\
-  for (int idx = xs.size; idx > i; --idx)\
-  {\
-    xs.items[idx] = xs.items[idx - 1];\
-  }\
+	size_t nr_of_elems = xs.size - i;\
+  memmove(\
+		&xs.items[i+1], &xs.items[i], \
+		nr_of_elems * sizeof(*xs.items)\
+	);\
   xs.items[i] = x;\
   xs.size++;\
 } while(0);
@@ -106,10 +108,7 @@ do {\
   xs_copy.capacity = xs.capacity;\
   xs_copy.size = xs.size;\
   xs_copy.items = malloc(xs.capacity * sizeof(*xs.items));\
-  for (int i = 0; i < xs.size; ++i)\
-  {\
-    xs_copy.items[i] = xs.items[i]; \
-  }\
+ 	memcpy(xs_copy.items, xs.items, xs.size * sizeof(*xs.items));\
   xs_copy;\
 })
 
