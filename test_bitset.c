@@ -28,7 +28,7 @@ int main()
 	set_flag(&set, C);
 	printf("matches: A, B, C ? %d\n", matches(&set, 3, A, B, C));
 	printf("Clear flags\n");
-	clear_flags(&set);
+	clear_all_flags(&set);
 	printf("matches: B ? %d\n", matches(&set, 1, B));
 	printf("set: C\n");
 	set_flag(&set, C);
@@ -42,7 +42,7 @@ int main()
 	toggle_flag(&set, C);
 	printf("matches: B, C ? %d\n", matches(&set, 1, C));
 	printf("Clear flags\n");
-	clear_flags(&set);
+	clear_all_flags(&set);
 	printf("Set flags A, C\n");
 	set_flags(&set, 2, A, C);
 	printf("matches: A, C ? %d\n", matches(&set, 2, A, C));

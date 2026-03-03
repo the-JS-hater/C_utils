@@ -1,14 +1,24 @@
 #include "bitset.h"
 
 
+static inline size_t bitmask(size_t const flag)
+{
+	if (flag >= sizeof(size_t) * 8)
+	{
+		fprintf(stderr, "flag value exceeds capacity of bitset\n");
+		exit(1);
+	}
+	return (size_t)1 << flag;
+}
+
 bool matches(Bitset const *set, size_t const count, ...)
 {
 	va_list args;
 	va_start(args, count);
 	for (size_t i = 0; i < count; ++i)
 	{
-		size_t bit_mask = ((size_t)1 << va_arg(args, size_t));
-		if (set->flags & bit_mask) continue;
+		size_t flag = va_arg(args, size_t);
+		if (set->flags & bitmask(flag)) continue;
 		va_end(args);
 		return false;
 	}
@@ -18,8 +28,7 @@ bool matches(Bitset const *set, size_t const count, ...)
 
 void set_flag(Bitset *set, size_t const flag)
 {
-	size_t bit_mask = ((size_t)1 << flag);
-	set->flags |= bit_mask;
+	set->flags |= bitmask(flag);
 }
 
 void set_flags(Bitset *set, size_t count, ...)
@@ -36,8 +45,7 @@ void set_flags(Bitset *set, size_t count, ...)
 
 void toggle_flag(Bitset *set, size_t const flag)
 {
-	size_t bit_mask = ((size_t)1 << flag);
-	set->flags ^= bit_mask;
+	set->flags ^= bitmask(flag);
 }
 
 void toggle_flags(Bitset *set, size_t const count, ...)
@@ -59,11 +67,22 @@ void toggle_all_flags(Bitset *set)
 
 void clear_flag(Bitset *set, size_t flag)
 {
-	size_t bit_mask = ((size_t)1 << flag);
-	set->flags &= ~bit_mask;
+	set->flags &= ~bitmask(flag);
 }
 
-void clear_flags(Bitset *set)
+void clear_flags(Bitset *set, size_t const count, ...)
+{
+	va_list args;
+	va_start(args, count);
+	for (size_t i = 0; i < count; ++i)
+	{
+		size_t flag = va_arg(args, size_t);
+		clear_flag(set, flag);
+	}
+	va_end(args);
+}
+
+void clear_all_flags(Bitset *set)
 {
 	set->flags = 0;
 }
