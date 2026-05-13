@@ -49,7 +49,7 @@ do {\
   xs.items[xs.size++] = x;\
 } while(0);
 
-#define remove(xs, i)\
+#define vec_remove(xs, i)\
 do {\
   if (i >= xs.size) break;\
 	size_t nr_of_elems = xs.size - i - 1;\

@@ -17,7 +17,7 @@ int main()
     printf("numbers[%d] = %d\n",i, numbers.items[i]);
   printf("Empty?: %d\n", empty(numbers));
   printf("\nremoving idx = 3\nb = pop()\n\n");
-  remove(numbers, 3);
+  vec_remove(numbers, 3);
   int b = pop(numbers);
   printf("b = %d\n", b);
   for (int i = 0; i < numbers.size; ++i) 
