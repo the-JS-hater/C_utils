@@ -151,11 +151,19 @@ do {\
   xs_copy;\
 })
 
-#define for_each(xs, func)\
+#define pure_for_each(xs, func)\
 do {\
   for (int i = 0; i < xs.size; ++i)\
   {\
     func(xs.items[i]);\
+  }\
+} while(0);
+
+#define for_each(xs, func, ctx)\
+do {\
+  for (int i = 0; i < xs.size; ++i)\
+  {\
+    func(&xs.items[i], ctx);\
   }\
 } while(0);
 

@@ -69,6 +69,6 @@ int main()
   for (int i = 0; i < names.size; ++i)
     printf("%s\n", names.items[i]);
   printf("For each loops\n");
-  for_each(names, print_str);
-  for_each(numbers, print_int);
+  pure_for_each(names, print_str);
+  pure_for_each(numbers, print_int);
 }
