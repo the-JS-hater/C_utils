@@ -82,3 +82,5 @@ Mat4 rotate_z(float);
 Mat4 translate(float, float, float);
 Vec4 transform(Mat4, Vec4);
 Vec4 transform_vec3(Mat4, Vec3);
+Mat4 ortho(float, float, float, float, float, float);
+Mat4 perspective(float, float, float, float);

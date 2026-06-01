@@ -259,15 +259,15 @@ Mat3 mat3_scale(Mat3 m, float x)
 Mat3 mat3_mult(Mat3 m1, Mat3 m2)
 {
 	return (Mat3){
-    m1.m[0]*m2.m[0] + m1.m[3]*m1.m[1] + m1.m[6]*m2.m[2],
-    m1.m[1]*m2.m[0] + m1.m[4]*m1.m[1] + m1.m[7]*m2.m[2],
-    m1.m[2]*m2.m[0] + m1.m[5]*m1.m[1] + m1.m[8]*m2.m[2],
-    m1.m[0]*m2.m[3] + m1.m[3]*m1.m[4] + m1.m[6]*m2.m[5],
-    m1.m[1]*m2.m[3] + m1.m[4]*m1.m[4] + m1.m[7]*m2.m[5],
-    m1.m[2]*m2.m[3] + m1.m[5]*m1.m[4] + m1.m[8]*m2.m[5],
-    m1.m[0]*m2.m[6] + m1.m[3]*m1.m[7] + m1.m[6]*m2.m[8],
-    m1.m[1]*m2.m[6] + m1.m[4]*m1.m[7] + m1.m[7]*m2.m[8],
-    m1.m[2]*m2.m[6] + m1.m[5]*m1.m[7] + m1.m[8]*m2.m[8],
+    m1.m[0]*m2.m[0] + m1.m[1]*m1.m[3] + m1.m[2]*m2.m[6],
+    m1.m[0]*m2.m[1] + m1.m[1]*m1.m[4] + m1.m[2]*m2.m[7],
+    m1.m[0]*m2.m[2] + m1.m[1]*m1.m[5] + m1.m[2]*m2.m[8],
+    m1.m[3]*m2.m[0] + m1.m[4]*m1.m[3] + m1.m[5]*m2.m[6],
+    m1.m[3]*m2.m[1] + m1.m[4]*m1.m[4] + m1.m[5]*m2.m[7],
+    m1.m[3]*m2.m[2] + m1.m[4]*m1.m[5] + m1.m[5]*m2.m[8],
+    m1.m[6]*m2.m[0] + m1.m[7]*m1.m[3] + m1.m[8]*m2.m[6],
+    m1.m[6]*m2.m[1] + m1.m[7]*m1.m[4] + m1.m[8]*m2.m[7],
+    m1.m[6]*m2.m[2] + m1.m[7]*m1.m[5] + m1.m[8]*m2.m[8],
 	};
 }
 
@@ -362,16 +362,16 @@ Mat4 mat4_sub(Mat4 m1, Mat4 m2)
 Mat4 mat4_scale(Mat4 m, float x)
 {
 	return (Mat4){
-		m.m[0] * x,
-		m.m[1] * x,
-		m.m[2] * x,
-		m.m[3] * x,
-		m.m[4] * x,
-		m.m[5] * x,
-		m.m[6] * x,
-		m.m[7] * x,
-		m.m[8] * x,
-		m.m[9] * x,
+		m.m[0]  * x,
+		m.m[1]  * x,
+		m.m[2]  * x,
+		m.m[3]  * x,
+		m.m[4]  * x,
+		m.m[5]  * x,
+		m.m[6]  * x,
+		m.m[7]  * x,
+		m.m[8]  * x,
+		m.m[9]  * x,
 		m.m[10] * x,
 		m.m[11] * x,
 		m.m[12] * x,
@@ -399,7 +399,7 @@ Mat4 mat4_mult(Mat4 m1, Mat4 m2)
 		m1.m[0]*m2.m[12] + m1.m[4]*m2.m[13] + m1.m[8] *m2.m[14] + m1.m[12]*m2.m[15],
 		m1.m[1]*m2.m[12] + m1.m[5]*m2.m[13] + m1.m[9] *m2.m[14] + m1.m[13]*m2.m[15],
 		m1.m[2]*m2.m[12] + m1.m[6]*m2.m[13] + m1.m[10]*m2.m[14] + m1.m[14]*m2.m[15],
-		m1.m[3]*m2.m[12] + m1.m[7]*m2.m[13] + m1.m[11]*m2.m[14] + m1.m[15]*m2.m[15]
+		m1.m[3]*m2.m[12] + m1.m[7]*m2.m[13] + m1.m[11]*m2.m[14] + m1.m[15]*m2.m[15],
 	};
 }
 
@@ -495,12 +495,12 @@ Mat4 scale(float x)
 
 Mat4 translate(float x, float y, float z)
 {
-	return (Mat4){
-		1.0f, 0.0f, 0.0f, x, 
-		0.0f, 1.0f, 0.0f, y, 
-		0.0f, 0.0f, 1.0f, z, 
-		0.0f, 0.0f, 0.0f, 1.0f, 
-	};
+  return (Mat4){
+    1.0f, 0.0f, 0.0f, 0.0f,
+    0.0f, 1.0f, 0.0f, 0.0f,
+    0.0f, 0.0f, 1.0f, 0.0f,
+    x, 		y, 		z, 		1.0f
+  };
 }
 
 // NOTE: math.h cos/sin/etc expect radians
@@ -537,10 +537,10 @@ Mat4 rotate_z(float r)
 Vec4 transform(Mat4 m, Vec4 v)
 {
 	return (Vec4){
-		m.m[0]  * v.x + m.m[4]  * v.y + m.m[8]  * v.z + m.m[12] * v.w,
-		m.m[1]  * v.x + m.m[5]  * v.y + m.m[9]  * v.z + m.m[13] * v.w,
-		m.m[2]  * v.x + m.m[6]  * v.y + m.m[10] * v.z + m.m[14] * v.w,
-		m.m[3]  * v.x + m.m[7]  * v.y + m.m[11] * v.z + m.m[15] * v.w,
+		m.m[0] * v.x + m.m[4] * v.y + m.m[8]  * v.z + m.m[12] * v.w,
+		m.m[1] * v.x + m.m[5] * v.y + m.m[9]  * v.z + m.m[13] * v.w,
+		m.m[2] * v.x + m.m[6] * v.y + m.m[10] * v.z + m.m[14] * v.w,
+		m.m[3] * v.x + m.m[7] * v.y + m.m[11] * v.z + m.m[15] * v.w,
 	};
 }
 
@@ -549,3 +549,26 @@ Vec4 transform_vec3(Mat4 m, Vec3 v)
 	return transform(m, vec4(v));
 }
 
+Mat4 perspective(float fov, float aspect, float near, float far)
+{
+  Mat4 result = { 0 };
+
+  double top = near*tan(fov*0.5);
+  double bottom = -top;
+  double right = top*aspect;
+  double left = -right;
+
+  float rl = (float)(right - left);
+  float tb = (float)(top - bottom);
+  float fn = (float)(far - near);
+
+  result.m[0]= ((float)near*2.0f)/rl;
+  result.m[5]= ((float)near*2.0f)/tb;
+  result.m[8]= ((float)right + (float)left)/rl;
+  result.m[9]= ((float)top + (float)bottom)/tb;
+  result.m[10] = -((float)far + (float)near)/fn;
+  result.m[11] = -1.0f;
+  result.m[14] = -((float)far*(float)near*2.0f)/fn;
+
+  return result;
+}
