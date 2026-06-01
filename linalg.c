@@ -529,8 +529,8 @@ Mat4 rotate_z(float r)
 	return (Mat4){
 		cos(r), -sin(r), 0.0f, 0.0f, 
 		sin(r), cos(r),  0.0f, 0.0f, 
-		0.0f, 	0.0f, 	 0.0f, 0.0f, 
-		0.0f, 	0.0f, 	 0.0f, 0.0f, 
+		0.0f, 	0.0f, 	 1.0f, 0.0f, 
+		0.0f, 	0.0f, 	 0.0f, 1.0f, 
 	};
 }
 
