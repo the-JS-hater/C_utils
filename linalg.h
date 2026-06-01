@@ -23,6 +23,8 @@ typedef struct
 
 Vec3 vec3(Vec4);
 Vec4 vec4(Vec3);
+Vec3 new_vec3(float, float, float);
+Vec4 new_vec4(float,float,float,float);
 
 Vec3 vec3_add_val(Vec3, float);
 Vec3 vec3_sub_val(Vec3, float);

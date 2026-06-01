@@ -10,6 +10,16 @@ Vec4 vec4(Vec3 v)
 	return (Vec4){v.x, v.y, v.z, 1.0};
 }
 
+Vec3 new_vec3(float x, float y, float z)
+{
+	return (Vec3){x, y, z};
+}
+
+Vec4 new_vec4(float x, float y, float z, float w)
+{
+	return (Vec4){x, y, z, w};
+}
+
 Vec3 vec3_add_val(Vec3 v, float x)
 {
 	return (Vec3){
