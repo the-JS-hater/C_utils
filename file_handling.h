@@ -2,6 +2,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-#include <stdbool.h>
 
-char const *read_file(char const* file_name);
+int read_file(char **data_buffer, char const* file_name);
+void print_file(char const* data_buffer);
+

@@ -46,15 +46,7 @@ int main()
   for (int i = 0; i < numbers_copy.size; ++i) 
     printf("numbers_copy[%d] = %d\n",i, numbers_copy.items[i]);
   printf("Applying Map(x * x) on numbers_copy\n");
-  map(numbers_copy, map_func);
-  for (int i = 0; i < numbers_copy.size; ++i) 
-    printf("numbers_copy[%d] = %d\n",i, numbers_copy.items[i]);
   printf("Applying pure Map(x * x) on original numbers\n");
-  iVec mapped_numbers = pure_map(numbers, map_func);
-  for (int i = 0; i < numbers.size; ++i) 
-    printf("numbers[%d] = %d\n",i, numbers.items[i]);
-  for (int i = 0; i < mapped_numbers.size; ++i) 
-    printf("mapped_numbers[%d] = %d\n",i, mapped_numbers.items[i]);
   printf("sum of numbers: %d\n", reduce(numbers, reduce_func, 0));
   printf("numbers filtered for divisible by 5\n");
   iVec filtered = filter(numbers, div_by_five);
@@ -69,6 +61,4 @@ int main()
   for (int i = 0; i < names.size; ++i)
     printf("%s\n", names.items[i]);
   printf("For each loops\n");
-  pure_for_each(names, print_str);
-  pure_for_each(numbers, print_int);
 }

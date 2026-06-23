@@ -112,26 +112,6 @@ do {\
   xs_copy;\
 })
 
-#define map(xs, func)\
-do {\
-  for (int i = 0; i < xs.size; ++i)\
-  {\
-    xs.items[i] = func(xs.items[i]);\
-  }\
-} while(0);
-
-#define pure_map(xs, func) ({\
-  __auto_type xs_copy = (xs);\
-  xs_copy.capacity = xs.capacity;\
-  xs_copy.size = xs.size;\
-  xs_copy.items = malloc(xs.capacity * sizeof(*xs.items));\
-  for (int i = 0; i < xs.size; ++i)\
-  {\
-    xs_copy.items[i] = func(xs.items[i]);\
-  }\
-  xs_copy;\
-})
-
 #define reduce(xs, func, init_val) ({\
   __auto_type retval = init_val;\
   for (int i = 0; i < xs.size; ++i)\
@@ -151,15 +131,15 @@ do {\
   xs_copy;\
 })
 
-#define pure_for_each(xs, func)\
+#define for_each(xs, func, ctx)\
 do {\
   for (int i = 0; i < xs.size; ++i)\
   {\
-    func(xs.items[i]);\
+    func(xs.items[i], ctx);\
   }\
 } while(0);
 
-#define for_each(xs, func, ctx)\
+#define map(xs, func, ctx)\
 do {\
   for (int i = 0; i < xs.size; ++i)\
   {\

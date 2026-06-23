@@ -9,3 +9,7 @@ test_bitset: test_bitset.c bitset.c bitset.h
 test_hashtable: test_hashtable.c hashtable.c hashtable.h
 	gcc test_hashtable.c hashtable.c hashtable.h -o test
 	./test
+
+test_files: test_files.c file_handling.c file_handling.h
+	gcc test_files.c file_handling.c file_handling.h -o test
+	./test file_handling.c

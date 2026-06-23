@@ -1,36 +1,41 @@
 #include "file_handling.h"
 
 
-char const *read_file(char const* file_name)
+int read_file(char **data_buffer, char const* file_name)
 {
 	FILE *f_ptr = fopen(file_name, "r");
 	if (!f_ptr)
 	{
-		perror("failed to open file");
-		exit(1);
+		printf("failed to open file\n");
+		return -1;
 	}
 	if (fseek(f_ptr, 0, SEEK_END))
 	{
 		fclose(f_ptr);
-		perror("fseek failed");
-		exit(1);
+		printf("fseek failed\n");
+		return -1;
 	}
 	long size = ftell(f_ptr);
 	if (size < 0)
 	{
 		fclose(f_ptr);
-		perror("ftell failed");
-		exit(1);
+		printf("ftell failed\n");
+		return -1;
 	}
 	rewind(f_ptr);
-	char *data_buffer = malloc((size_t)size+1);
+	*data_buffer = malloc((size_t)size+1);
 	if (fread(data_buffer, 1, size, f_ptr) < size)
 	{
 		fclose(f_ptr);
-		perror("failed to read file");
-		exit(1);
+		printf("failed to read file\n");
+		return -1;
 	}
 	fclose(f_ptr);
-	data_buffer[size] = '\0';
-	return data_buffer;
+	(*data_buffer)[size] = '\0';
+	return 0;
+}
+
+void print_file(char const* data_buffer)
+{
+  printf("%s\n", data_buffer);
 }
