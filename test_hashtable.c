@@ -2,7 +2,4 @@
 #include "stdio.h"
 
 
-int main()
-{
-	printf("hej\n");
-}
+int main() { printf("hej\n"); }
