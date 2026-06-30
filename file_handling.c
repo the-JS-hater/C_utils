@@ -23,12 +23,13 @@ int read_file(char **data_buffer, char const* file_name)
 		return -1;
 	}
 	rewind(f_ptr);
-	*data_buffer = malloc((size_t)size+1);
-	if (fread(data_buffer, 1, size, f_ptr) < size)
+	*data_buffer = malloc(size+1);
+	if (fread(*data_buffer, 1, size, f_ptr) < size)
 	{
 		fclose(f_ptr);
 		printf("failed to read file\n");
-		return -1;
+		free(*data_buffer);
+    return -1;
 	}
 	fclose(f_ptr);
 	(*data_buffer)[size] = '\0';
