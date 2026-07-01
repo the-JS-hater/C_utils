@@ -13,3 +13,7 @@ test_hashtable: test_hashtable.c hashtable.c hashtable.h
 test_files: test_files.c file_handling.c file_handling.h
 	gcc test_files.c file_handling.c file_handling.h -o test
 	./test file_handling.c
+
+test_obj_loader: obj_loader.c
+	gcc obj_loader.c -o test
+	./test utah_teapot.obj
