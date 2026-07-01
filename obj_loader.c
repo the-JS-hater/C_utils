@@ -54,16 +54,59 @@ int main(int argc, char **argv)
     return -1;
   }
 
+  VertexVec   vertices  = {0};
+  TexCoordVec uv_coords = {0};
+  NormalVec   normals   = {0};
+  FaceVec     faces     = {0};
+  int const   line_size = 256;
+  char        line_buf[line_size];
   // # denotes comments, line starting with o can be discarded
+  char  *c;
+  float *f1, *f2, *f3, *f4;
+  int   *i1, *i2, *i3;
+  while (1)
+  {
+    // Parse vertices, w defaults to 1.0
+    // 	v x y z w
+    if (!fgets(line_buf, line_size, f_ptr)) goto error;
 
-  // Parse vertices, w defaults to 1.0
-  // 	v x y z w
+    int n = sscanf(line_buf, "%s %f %f %f %f", c, f1, f2, f3, f4);
+    if (n < 1) goto error;
+    if (strcmp(c, "o") && strcmp(c, "#")) continue;
+    if (strcmp(c, "vt")) break;
+    if (n < 3) goto error;
+    Vertex v = {0};
+    v.x      = *f1;
+    v.y      = *f2;
+    v.z      = *f3;
+    if (n == 3)
+      v.w = 1.0;
+    else if (n == 4)
+      v.w = *f4;
+    else
+      goto error;
+
+    append(vertices, v);
+    // TODO: test print v
+  }
   // Parse tex coords, v, w defaults to 0
-  // 	vt u v w
+  {
+    // 	vt u v w
+  }
   // Parse normals
+  {
+  }
   // 	vn x y z
   // Skip parameter space vertices (for now)
-  //	vp ...
+  {
+    //	vp ...
+  }
   // Parse faces
-  //  f v_i/vt_i/vn_i
+  {
+    //  f v_i/vt_i/vn_i
+  }
+error:
+  printf("Something fucked up\n");
+
+  // if (feof(f_ptr)) printf("End of file reached");
 }
